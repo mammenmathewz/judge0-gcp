@@ -9,6 +9,7 @@ This repository contains a **self-hosted Judge0** instance deployed on **Google 
 - Supports multiple programming languages
 - Secure and isolated code execution
 - **Redis queue-based job processing** for efficient execution
+- **PostgreSQL** support for persistent data storage
 - Scalable deployment on **GCP Compute Engine**
 - Integrated into **Octaview B2B SaaS** for real-time evaluations
 
