@@ -8,6 +8,7 @@ This repository contains a **self-hosted Judge0** instance deployed on **Google 
 
 - Supports multiple programming languages
 - Secure and isolated code execution
+- **Redis queue-based job processing** for efficient execution
 - Scalable deployment on **GCP Compute Engine**
 - Integrated into **Octaview B2B SaaS** for real-time evaluations
 
@@ -23,13 +24,14 @@ Ensure you have the following installed:
 - Docker & Docker Compose
 - Google Cloud SDK (gcloud CLI)
 - A running GCP Compute Engine instance
+- Redis for queuing execution requests
 ```
 
 ### 2️⃣ Clone the Repository
 
 ```sh
-git clone https://github.com/mammenmathewz/judge0-octaview.git
-cd judge0-octaview
+git clone https://github.com/mammenmathewz/judge0-octaview.git  
+cd judge0-octaview  
 ```
 
 ### 3️⃣ Environment Variables
@@ -37,17 +39,18 @@ cd judge0-octaview
 Create a `.env` file and configure necessary variables:
 
 ```sh
-JUDGE0_TELEMETRY_ENABLE=false  # Disable telemetry
-REDIS_HOST=localhost
-POSTGRES_USER=judge0
-POSTGRES_PASSWORD=yourpassword
-POSTGRES_DB=judge0
+JUDGE0_TELEMETRY_ENABLE=false  # Disable telemetry  
+REDIS_HOST=localhost  
+REDIS_PORT=6379  
+POSTGRES_USER=judge0  
+POSTGRES_PASSWORD=yourpassword  
+POSTGRES_DB=judge0  
 ```
 
 ### 4️⃣ Start Judge0 with Docker
 
 ```sh
-docker-compose up -d
+docker-compose up -d  
 ```
 
 ### 5️⃣ Verify the Deployment
@@ -55,7 +58,7 @@ docker-compose up -d
 After deployment, check if Judge0 is running:
 
 ```sh
-curl http://localhost:2358/languages
+curl http://localhost:2358/languages  
 ```
 
 Expected Output:
@@ -86,10 +89,28 @@ curl -X POST "http://localhost:2358/submissions" \
 ### 🔹 Retrieve Execution Result
 
 ```sh
-curl -X GET "http://localhost:2358/submissions/{TOKEN}"
+curl -X GET "http://localhost:2358/submissions/{TOKEN}"  
 ```
 
 Replace `{TOKEN}` with the actual token received from the submission request.
+
+---
+
+## ⚡ Redis-Based Job Queuing
+
+Judge0 is configured to use **Redis** as a job queue for handling multiple execution requests asynchronously.
+
+To monitor the Redis queue:
+
+```sh
+redis-cli monitor  
+```
+
+To check pending jobs:
+
+```sh
+redis-cli llen judge0_queue  
+```
 
 ---
 
@@ -100,14 +121,14 @@ You can customize **Judge0** by modifying the `config` files in this repository.
 For example, to adjust memory limits, update:
 
 ```sh
-vi config/default.conf
+vi config/default.conf  
 ```
 
 Change:
 
 ```sh
-MAX_MEMORY=512MB
-MAX_TIME=10s
+MAX_MEMORY=512MB  
+MAX_TIME=10s  
 ```
 
 ---
@@ -117,15 +138,22 @@ MAX_TIME=10s
 To check logs:
 
 ```sh
-docker logs -f judge0
+docker logs -f judge0  
+```
+
+To view queued tasks in Redis:
+
+```sh
+redis-cli lrange judge0_queue 0 -1  
 ```
 
 ---
 
 ## 🔒 Security Notes
 
-- **Firewall Rules**: Ensure your **GCP VM firewall** allows only necessary traffic.
-- **Sandboxing**: Execution is containerized to prevent security risks.
+- **Firewall Rules**: Ensure your **GCP VM firewall** allows only necessary traffic.  
+- **Sandboxing**: Execution is containerized to prevent security risks.  
+- **Queue Protection**: Redis should be secured with authentication and firewall rules.  
 
 ---
 
@@ -141,4 +169,4 @@ This Judge0 instance is maintained by **Mammen Mathew** for **Octaview SaaS**. F
 
 ---
 
-### 🌟 Star this repo if you found it useful!
+### 🌟 Star this repo if you found it useful!  
