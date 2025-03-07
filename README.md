@@ -124,7 +124,6 @@ docker logs -f judge0
 
 ## 🔒 Security Notes
 
-- **Telemetry Disabled**: Judge0's telemetry has been removed for privacy.
 - **Firewall Rules**: Ensure your **GCP VM firewall** allows only necessary traffic.
 - **Sandboxing**: Execution is containerized to prevent security risks.
 
