@@ -26,6 +26,7 @@ Ensure you have the following installed:
 - Google Cloud SDK (gcloud CLI)
 - A running GCP Compute Engine instance
 - Redis for queuing execution requests
+- PostgreSQL for persistent data
 ```
 
 ### 2️⃣ Clone the Repository
