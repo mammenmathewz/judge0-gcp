@@ -32,8 +32,8 @@ Ensure you have the following installed:
 ### 2️⃣ Clone the Repository
 
 ```sh
-git clone https://github.com/mammenmathewz/judge0-octaview.git  
-cd judge0-octaview  
+git clone https://github.com/mammenmathewz/octview-cloud-compiler
+cd octview-cloud-compiler
 ```
 
 ### 3️⃣ Environment Variables
